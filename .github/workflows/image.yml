@@ -21,8 +21,8 @@ jobs:
               echo "::set-output name=image_arguments::$value"
             fi
           done < image.txt
-          echo "The image to pull is ${{ steps.read-config.outputs.image_name }}"
-          echo "The arguments for the image are ${{ steps.read-config.outputs.image_arguments }}"
+          echo "The image to pull is $image_name
+          echo "The arguments for the image are $image_arguments
 
       - name: Pull Docker Image
         run: |
