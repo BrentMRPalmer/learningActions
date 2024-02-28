@@ -1,0 +1,29 @@
+name: Pull Docker Image Based on Text File
+
+on: [workflow_dispatch]
+
+jobs:
+  pull-docker-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Read text file
+        id: read-text
+        run: |
+          image_name=$(cat image.txt)
+          echo "::set-output name=image_name::$image_name"
+
+      - name: Pull Docker Image
+        run: |
+          docker pull ${{ steps.read-text.outputs.image_name }}
+
+      - name: Run Docker Image
+        run: |
+          docker run ${{ steps.read-text.outputs.image_name }}
+ 
+       - name: Check Docker Images
+        run: |
+          docker images
