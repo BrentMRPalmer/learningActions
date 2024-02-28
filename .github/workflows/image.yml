@@ -10,20 +10,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Read text file
-        id: read-text
+      - name: Read text file and extract image and arguments
+        id: read-config
         run: |
-          image_name=$(cat image.txt)
-          echo "::set-output name=image_name::$image_name"
+          while IFS=": " read -r key value
+          do
+            if [[ $key == 'image' ]]; then
+              echo "::set-output name=image_name::$value"
+            elif [[ $key == 'arguments' ]]; then
+              echo "::set-output name=image_arguments::$value"
+            fi
+          done < image.txt
 
       - name: Pull Docker Image
         run: |
-          docker pull ${{ steps.read-text.outputs.image_name }}
+          docker pull ${{ steps.read-config.outputs.image_name }}
 
-      - name: Run Docker Image
+      - name: Run Docker Image with Arguments
         run: |
-          docker run ${{ steps.read-text.outputs.image_name }}
- 
+          docker run ${{ steps.read-config.outputs.image_arguments }} ${{ steps.read-config.outputs.image_name }}
+
       - name: Check Docker Images
         run: |
           docker images
