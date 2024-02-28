@@ -13,24 +13,26 @@ jobs:
       - name: Read text file and extract image and arguments
         id: read-config
         run: |
-          while IFS=": " read -r key value
+          while IFS= read -r line
           do
-            # Trim any leading/trailing whitespace from the key and value
-            key=$(echo $key | xargs)
-            value=$(echo $value | xargs)
-            
+            # Remove carriage returns that might be present in a Mac-created file
+            line=$(echo "$line" | tr -d '\r')
+
+            # Split the line into key and value based on the first colon followed by a space
+            key=$(echo $line | cut -d ':' -f 1 | xargs)
+            value=$(echo $line | cut -d ':' -f 2- | xargs)
+
+            echo "DEBUG: Key is '$key', Value is '$value'"
+
             if [[ $key == 'image' ]]; then
               image_name=$value
               echo "::set-output name=image_name::$image_name"
-              echo "DEBUG: Image name is $image_name"
             elif [[ $key == 'arguments' ]]; then
               image_arguments=$value
               echo "::set-output name=image_arguments::$image_arguments"
-              echo "DEBUG: Image arguments are $image_arguments"
-            else
-              echo "DEBUG: Unrecognized key '$key' with value '$value'"
             fi
           done < image.txt
+
 
 
       - name: Pull Docker Image
