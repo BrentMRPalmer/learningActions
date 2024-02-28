@@ -1,2 +1,1 @@
-arguments: cowsay Hello docker
-image: docker/whalesay
+image: hello-world
