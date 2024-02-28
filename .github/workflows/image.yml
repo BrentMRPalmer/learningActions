@@ -24,6 +24,6 @@ jobs:
         run: |
           docker run ${{ steps.read-text.outputs.image_name }}
  
-       - name: Check Docker Images
+      - name: Check Docker Images
         run: |
           docker images
