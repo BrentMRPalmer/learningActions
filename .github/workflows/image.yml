@@ -15,20 +15,9 @@ jobs:
         run: |
           while IFS= read -r line
           do
-            # Remove carriage returns that might be present in a Mac-created file
-            line=$(echo "$line" | tr -d '\r')
-
-            # Split the line into key and value based on the first colon followed by a space
-            key=$(echo $line | cut -d ':' -f 1 | xargs)
-            value=$(echo $line | cut -d ':' -f 2- | xargs)
-
-            echo "DEBUG: Key is '$key', Value is '$value'"
-
             if [[ $key == 'image' ]]; then
-              image_name=$value
               echo "::set-output name=image_name::$image_name"
             elif [[ $key == 'arguments' ]]; then
-              image_arguments=$value
               echo "::set-output name=image_arguments::$image_arguments"
             fi
           done < image.txt
