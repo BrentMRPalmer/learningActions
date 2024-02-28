@@ -16,8 +16,10 @@ jobs:
           while IFS= read -r line
           do
             if [[ $key == 'image' ]]; then
+              image_name=$value
               echo "::set-output name=image_name::$image_name"
             elif [[ $key == 'arguments' ]]; then
+              image_arguments=$value
               echo "::set-output name=image_arguments::$image_arguments"
             fi
           done < image.txt
