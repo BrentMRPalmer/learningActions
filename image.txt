@@ -1,1 +1,2 @@
-hello-world
+image: hello-world
+arguments: hello-world
