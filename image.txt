@@ -1,2 +1,2 @@
-image: hello-world
-arguments: hello-world
+image: docker/whalesay
+arguments: cowsay Hello docker
