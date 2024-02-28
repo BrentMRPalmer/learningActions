@@ -41,7 +41,7 @@ jobs:
 
       - name: Run Docker Image with Arguments
         run: |
-          docker run ${{ steps.read-config.outputs.image_arguments }} ${{ steps.read-config.outputs.image_name }}
+          docker run ${{ steps.read-config.outputs.image_name }} ${{ steps.read-config.outputs.image_arguments }}
 
       - name: Check Docker Images
         run: |
