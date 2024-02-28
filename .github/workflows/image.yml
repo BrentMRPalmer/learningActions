@@ -16,11 +16,11 @@ jobs:
           while IFS=": " read -r key value
           do
             if [[ $key == 'image' ]]; then
-              image_name = $value
+              image_name=$value
               echo "::set-output name=image_name::$value"
             elif [[ $key == 'arguments' ]]; then
               echo "::set-output name=image_arguments::$value"
-              image_arguments = $arguments
+              image_arguments=$arguments
             fi
           done < image.txt
           echo "The image to pull is $image_name"
